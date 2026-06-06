@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrew A. N. Deloucas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --page-background:    #0b0f1a;   /* main background */
+    --section-background: #1c2333;   /* alternating section bands */
+    --raised-background:  #2f3a4f;   /* image placeholders, chips */
+    --card-background:    #222b3e;   /* research cards */
+    --header-background:  #141a29;   /* top navigation bar */
+    --border-color:       #2a3346;   /* hairlines & dividers */
+    --text-color:         #e6e9f0;   /* main text */
+    --text-muted:         #8a93a6;   /* secondary text */
+    --accent-color:       #6e8aff;   /* links, highlights, buttons */
+    --accent-tint:        rgba(110,138,255,.14); /* faint accent wash */
+    --button-text-color:  #0b0f1a;   /* text sitting on an accent button */
+    --shadow-color:       rgba(0,0,0,.55);
+    --grain-opacity:      .05;
+
+    --content-width: 1180px;         /* max width of the centered column */
+  }
+  :root[data-theme="light"] {
+    --page-background:    #ffffff;   /* hero / page is bright white */
+    --section-background: #eef1f6;   /* bands read clearly grayer than the hero */
+    --raised-background:  #e2e7f0;
+    --card-background:    #ffffff;
+    --header-background:  #e3e8f1;   /* nav bar is a distinct gray strip */
+    --border-color:       #dde3ec;
+    --text-color:         #0b0f1a;
+    --text-muted:         #54607a;
+    --accent-color:       #3d52c9;
+    --accent-tint:        rgba(61,82,201,.10);
+    --button-text-color:  #ffffff;
+    --shadow-color:       rgba(15,23,42,.16);
+    --grain-opacity:      .03;
+  }
+  :root { --academia-logo-url: url("https://upload.wikimedia.org/wikipedia/commons/6/66/Academia-logo-2021.svg"); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--page-background);
+    color: var(--text-color);
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+    transition: background .4s ease, color .4s ease;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .container { max-width: var(--content-width); margin: 0 auto; padding: 0 40px; }
+  h1, h2, h3 { font-family: 'Fraunces', serif; font-weight: 400; }
+  a { color: inherit; }
+  .accent-text { color: var(--accent-color); }
+  .icon { width: 18px; height: 18px; fill: currentColor; }
+  .icon-academia {
+    width: 19px; height: 19px;
+    background-color: currentColor;      
+    -webkit-mask: var(--academia-logo-url) center / contain no-repeat;
+    mask: var(--academia-logo-url) center / contain no-repeat;
+  }
+  header {
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--header-background) 90%, transparent);
+    border-bottom: 1px solid var(--border-color);
+  }
+  .navbar {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: var(--content-width); margin: 0 auto; padding: 16px 40px;
+  }
+  .site-name { font-family: 'Fraunces', serif; font-size: 1.2rem; letter-spacing: .02em; text-decoration: none; }
+  .site-name b { color: var(--accent-color); font-weight: 600; }
+  .navbar-right { display: flex; align-items: center; gap: 30px; }
+  .nav-links {
+    list-style: none; display: flex; gap: 28px;
+    font-size: .8rem; text-transform: uppercase; letter-spacing: .14em; font-weight: 500;
+  }
+  .nav-links a { text-decoration: none; color: var(--text-muted); position: relative; padding-bottom: 3px; }
+  .nav-links a::after {
+    content: ""; position: absolute; left: 0; bottom: 0; height: 1.5px; width: 0;
+    background: var(--accent-color); transition: width .25s ease;
+  }
+  .nav-links a:hover { color: var(--text-color); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-link-cv { color: var(--accent-color) !important; font-weight: 600; }
+  .theme-toggle {
+    width: 38px; height: 38px; flex: none;
+    border: 1px solid var(--border-color); border-radius: 50%;
+    background: var(--section-background); color: var(--text-color);
+    display: grid; place-items: center; cursor: pointer; transition: .25s;
+  }
+  .theme-toggle:hover { border-color: var(--accent-color); color: var(--accent-color); transform: rotate(12deg); }
+  .theme-toggle svg { width: 18px; height: 18px; }
+  .theme-toggle .moon-icon { display: none; }
+  :root[data-theme="light"] .theme-toggle .sun-icon { display: none; }
+  :root[data-theme="light"] .theme-toggle .moon-icon { display: block; }
+
+  .hero { position: relative; z-index: 2; padding: 96px 0 80px; }
+  .hero-grid { display: grid; grid-template-columns: 1.3fr .9fr; gap: 64px; align-items: center; }
+  .hero-roles {
+    font-size: .8rem; text-transform: uppercase; letter-spacing: .22em;
+    color: var(--accent-color); font-weight: 600; margin-bottom: 30px;
+  }
+  .hero-statement {
+    font-size: clamp(1.5rem, 2.6vw, 2.05rem); line-height: 1.28; letter-spacing: -.01em;
+    font-weight: 500; max-width: 24ch;
+  }
+  .hero-status {
+    display: inline-flex; align-items: center; gap: 9px; margin-top: 26px;
+    font-size: .9rem; color: var(--text-muted);
+  }
+  .hero-status .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--text-muted); box-shadow: 0 0 0 4px var(--accent-tint);
+  }
+  .social-links { display: flex; gap: 14px; margin-top: 36px; }
+  .social-links a {
+    width: 42px; height: 42px;
+    border: 1px solid var(--border-color); border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--text-muted); background: var(--section-background);
+    transition: .22s;
+  }
+  .social-links a:hover { color: var(--accent-color); border-color: var(--accent-color); transform: translateY(-3px); }
+  .hero-portrait {
+    aspect-ratio: 4 / 5; position: relative; overflow: hidden;
+    border: 1px solid var(--border-color); border-radius: 8px;
+    background: radial-gradient(120% 90% at 50% 0%, var(--raised-background), var(--section-background));
+    box-shadow: 0 36px 70px -34px var(--shadow-color);
+  }
+  .hero-portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .fade-in { opacity: 0; transform: translateY(18px); animation: fadeIn .9s cubic-bezier(.2,.7,.2,1) forwards; }
+  .fade-delay-1 { animation-delay: .05s; } .fade-delay-2 { animation-delay: .16s; }
+  .fade-delay-3 { animation-delay: .27s; } .fade-delay-4 { animation-delay: .38s; }
+  .fade-delay-5 { animation-delay: .5s; }
+  @keyframes fadeIn { to { opacity: 1; transform: none; } }
+
+  section { position: relative; z-index: 2; }
+  .section { padding: 74px 0; }
+  .section-alt { background: var(--section-background); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+  .section-header { display: flex; align-items: baseline; gap: 18px; margin-bottom: 40px; }
+  .section-number { font-family: 'Fraunces', serif; font-size: .95rem; color: var(--accent-color); }
+  .section-header h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -.01em; }
+  .section-line { flex: 1; height: 1px; background: var(--border-color); align-self: center; }
+
+  .research-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+  .research-card {
+    background: var(--card-background); border: 1px solid var(--border-color); border-radius: 10px;
+    overflow: hidden; transition: transform .3s ease, box-shadow .3s ease, border-color .3s;
+  }
+  .research-card:hover { transform: translateY(-5px); box-shadow: 0 28px 54px -30px var(--shadow-color); border-color: var(--accent-color); }
+  .research-card-image { height: 178px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border-color); }
+  .research-card-image svg, .research-card-image img { width: 100%; height: 100%; object-fit: cover; }
+  .research-card-content { padding: 26px 28px 30px; }
+  .research-card-tag { font-size: .72rem; text-transform: uppercase; letter-spacing: .16em; color: var(--accent-color); font-weight: 600; }
+  .research-card h3 { font-size: 1.4rem; margin: 12px 0 10px; line-height: 1.15; }
+  .research-card p { color: var(--text-muted); font-size: .97rem; }
+  .research-card-link { display: inline-block; margin-top: 14px; font-size: .85rem; font-weight: 600; color: var(--accent-color); text-decoration: none; }
+  .research-card-link:hover { text-decoration: underline; }
+
+  .publication-list { display: flex; flex-direction: column; }
+  .publication {
+    display: grid; grid-template-columns: 88px 1fr auto; gap: 22px;
+    padding: 22px 0; border-top: 1px solid var(--border-color); align-items: baseline; transition: .2s;
+  }
+  .publication:last-child { border-bottom: 1px solid var(--border-color); }
+  .publication-year { font-family: 'Fraunces', serif; color: var(--accent-color); font-size: 1.05rem; }
+  .publication-title { font-size: 1.05rem; }
+  .publication-title em { color: var(--text-muted); font-style: italic; }
+  .publication-source { display: block; color: var(--text-muted); font-size: .9rem; margin-top: 3px; }
+  .publication-type { font-size: .68rem; text-transform: uppercase; letter-spacing: .13em; color: var(--text-muted); white-space: nowrap; padding-top: 4px; }
+  .publication:hover { background: var(--accent-tint); }
+  .publication:hover .publication-title { color: var(--accent-color); }
+  .publication-title a { color: inherit; text-decoration: none; }
+  .publication-title a:hover { color: var(--accent-color); }
+  .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 54px; }
+  .column h3 { font-size: 1.3rem; margin-bottom: 8px; }
+  .column-subtitle { color: var(--text-muted); font-size: .98rem; margin-bottom: 22px; }
+  .entry-list { list-style: none; }
+  .entry-list li { padding: 14px 0; border-top: 1px solid var(--border-color); font-size: .96rem; color: var(--text-muted); }
+  .entry-list li b { color: var(--text-color); font-weight: 500; font-family: 'Fraunces', serif; }
+  .entry-list a { color: var(--text-muted); text-decoration: none; border-bottom: 1px solid var(--accent-color); }
+  .entry-list a:hover { color: var(--accent-color); }
+  .subhead { font-size: 1.3rem; margin-bottom: 8px; }
+  .credit-list { display: flex; flex-direction: column; margin-top: 22px; }
+  .credit {
+    display: grid; grid-template-columns: 215px 1fr; gap: 24px;
+    padding: 24px 0; border-top: 1px solid var(--border-color); align-items: baseline; transition: .2s;
+  }
+  .credit:last-child { border-bottom: 1px solid var(--border-color); }
+  .credit-role { font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--accent-color); font-weight: 600; padding-top: 5px; }
+  .credit a { text-decoration: none; }
+  .credit-work { font-family: 'Fraunces', serif; font-size: 1.2rem; line-height: 1.25; }
+  .credit a:hover .credit-work { color: var(--accent-color); }
+  .credit-author { display: block; color: var(--text-muted); font-size: .92rem; margin-top: 4px; }
+  footer { position: relative; z-index: 2; background: var(--section-background); border-top: 1px solid var(--border-color); padding: 80px 0 40px; margin-top: 24px; }
+  .footer-cta { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: center; }
+  .footer-cta h2 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 4vw, 2.9rem); line-height: 1.08; letter-spacing: -.01em; }
+  .button {
+    justify-self: end;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent-color); color: var(--button-text-color);
+    padding: 15px 28px; border-radius: 9px; font-weight: 600; text-decoration: none; font-size: 1rem;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -14px var(--accent-color); }
+  .footer-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+    margin-top: 54px; padding-top: 22px; border-top: 1px solid var(--border-color);
+    font-size: .8rem; color: var(--text-muted);
+  }
+  .footer-bar a { color: var(--text-muted); text-decoration: none; }
+  .footer-bar a:hover { color: var(--accent-color); }
+  /* compact social row that fits on the single footer line */
+  .footer-bar .social-links { margin-top: 0; gap: 10px; }
+  .footer-bar .social-links a { width: 32px; height: 32px; }
+  .footer-bar .social-links .icon { width: 15px; height: 15px; }
+  .footer-bar .social-links .icon-academia { width: 16px; height: 16px; }
+  @media (max-width: 860px) {
+    .container { padding: 0 24px; }
+    .navbar { padding: 14px 24px; }
+    .navbar-right { gap: 16px; }
+    .nav-links { display: none; }
+    .hero-grid, .research-grid, .two-columns, .footer-cta { grid-template-columns: 1fr; gap: 36px; }
+    .footer-cta { gap: 26px; }
+    .button { justify-self: start; }
+    .hero-portrait { max-width: 300px; }
+    .publication { grid-template-columns: 54px 1fr; gap: 14px; }
+    .publication-type { display: none; }
+    .credit { grid-template-columns: 1fr; gap: 6px; }
+    .footer-bar { justify-content: flex-start; }
+  }
+</style>
+</head>
+
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="icon-bluesky" viewBox="0 0 24 24"><path d="M12 10.8C10.9 8.7 7.9 4.8 5.2 2.8 2.6.9 1.6 1.3.9 1.6.1 1.9 0 3.1 0 3.8c0 .7.4 5.6.6 6.5.8 2.7 3.7 3.6 6.4 3.4-3.9.6-7.4 2-2.8 7.1 5 5.2 6.9-1.1 7.8-4.3.9 3.2 2 9.3 7.7 4.3 4.3-4.3 1.2-6.5-2.7-7.1 2.7.3 5.6-.7 6.4-3.4.2-.9.6-5.8.6-6.5 0-.7-.1-1.9-.9-2.2-.7-.3-1.7-.7-4.3 1.2-2.7 2-5.7 5.9-6.8 8z"/></symbol>
+  <symbol id="icon-orcid" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zM7.4 4.4c.5 0 .9.4.9.9s-.4 1-.9 1c-.6 0-1-.4-1-1s.4-.9 1-.9zm-.7 3h1.4v10H6.7V7.4zm3.5 0h3.9c3.7 0 5.3 2.7 5.3 5s-2 5-5.3 5h-3.9V7.4zm1.5 1.3v7.4h2.3c2.4 0 3.6-1.4 3.6-3.7 0-2-1.1-3.7-3.6-3.7h-2.3z"/></symbol>
+  <symbol id="icon-github" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.3-1.7-1.3-1.7-1.1-.8.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17.3 4.7 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .3z"/></symbol>
+  <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M20.4 20.5h-3.6V15c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.6H9.4V9h3.4v1.6h.1c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.3zM5.3 7.4a2.1 2.1 0 110-4.2 2.1 2.1 0 010 4.2zM7.1 20.5H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/></symbol>
+  <symbol id="icon-email" viewBox="0 0 24 24"><path d="M2 6.5C2 5.7 2.7 5 3.5 5h17c.8 0 1.5.7 1.5 1.5v11c0 .8-.7 1.5-1.5 1.5h-17C2.7 19 2 18.3 2 17.5v-11zm2.2.5L12 12l7.8-5H4.2zM20 8.1l-7.4 4.8a1 1 0 01-1.2 0L4 8.1V17h16V8.1z"/></symbol>
+</svg>
+
+<header id="top">
+  <div class="navbar">
+    <a href="#top" class="site-name">Andrew A. N. <b>Deloucas</b></a>
+    <div class="navbar-right">
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#research">Research</a></li>
+          <li><a href="#publications">Publications</a></li>
+          <li><a href="#teaching">Teaching</a></li>
+          <li><a href="#consulting">Consultation</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a class="nav-link-cv" href="https://drive.google.com/file/d/16VY-RtRPDjFyJfWRe--O8QvXyoUDra1q/view">CV ↓</a></li>
+        </ul>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle day / night" aria-pressed="false">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M19.4 4.6l-1.8 1.8M6.4 17.6l-1.8 1.8"/>
+        </svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-roles fade-in fade-delay-1">Assyriologist · Digital Humanist · Ancient Historian</div>
+        <p class="hero-statement fade-in fade-delay-2">I study Bronze Age Mesopotamian cities, namely their civic, economic, and legal <span class="accent-text">institutions</span>. I also work on the provenance of American cuneiform collections before 1970.</p>
+        <div class="hero-status fade-in fade-delay-3"><span class="status-dot"></span>I am not accepting consultation requests at this time.</div>
+        <div class="social-links fade-in fade-delay-4">
+          <a href="https://www.linkedin.com/in/aandeloucas" aria-label="LinkedIn"><svg class="icon"><use href="#icon-linkedin"/></svg></a>
+          <a href="https://orcid.org/0009-0008-2855-7093" aria-label="ORCID"><svg class="icon"><use href="#icon-orcid"/></svg></a>
+          <a href="https://github.com/adeloucas" aria-label="GitHub"><svg class="icon"><use href="#icon-github"/></svg></a>
+          <a href="https://harvard.academia.edu/AANDeloucas" aria-label="Academia.edu"><span class="icon-academia"></span></a>
+          <a href="https://bsky.app/profile/aandeloucas.com" aria-label="Bluesky"><svg class="icon"><use href="#icon-bluesky"/></svg></a>
+        </div>
+      </div>
+      <div class="hero-portrait fade-in fade-delay-5">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBAbSvRsF4WZpmBw8FzxDMGH2ubbdda4PgFbmFmjXKMxq3toeC1XM1rCnVG37ztvowuTw6OLHp8l01bgBO8qg3J07I1zK6Y8025g0JdsZywrb6cGe1CGg03wi6Fc6m90-qOxqWtvh_1VNB5D6Km_b0RGH-MN6urqwXZMVFEZJMxYaSQEf-okzXHVqvtIepoyPCMU3_Eox0caKOqMyqEM8ZKUgOlZtbP7q2fyWMCt2U=w1280" alt="Andrew A. N. Deloucas">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research" class="section section-alt">
+  <div class="container">
+    <div class="section-header"><span class="section-number">01</span><h2>Research</h2><span class="section-line"></span></div>
+    <div class="research-grid">
+
+      <article class="research-card">
+        <div class="research-card-image">
+          <img src="https://drive.google.com/uc?export=view&id=1HGceUTj1H-1-f9XrN1UYgrLHl-iqcHIE" alt="Pottorf and Deloucas (2024)">
+        </div>
+        <div class="research-card-content">
+          <div class="research-card-tag">Ongoing · 2026–</div>
+          <h3>Provenance of American Cuneiform Collections</h3>
+          <p>I am interested in tracing the history of American cuneiform collections prior to 1970, focusing on their acquisition and institutional contexts.</p>
+        </div>
+      </article>
+
+      <article class="research-card">
+        <div class="research-card-image">
+         <img src="https://drive.google.com/uc?export=view&id=1gMg1muHPGoghkuy_-1yVFOwwk6fZxSjz" alt="Deloucas (2026)">  
+        </div>
+        <div class="research-card-content">
+          <div class="research-card-tag">Dissertation · 2023–2026</div>
+          <h3>Elite Persistence in Old Babylonian Nippur &amp; Ur (2026-1700 BCE)</h3>
+          <p>I investigate the institutional economy of two Old Babylonian cities using a relational database built for 2,500 cuneiform records and 13,000 attested names.</p>
+          <a class="research-card-link" href="https://zenodo.org/records/14313736">Preview on the project here →</a>
+        </div>
+      </article>
+
+      <article class="research-card">
+        <div class="research-card-image">
+         <img src="https://drive.google.com/uc?export=view&id=1MkibQYf5g0DvnRimc47uawNkUW4L9ece" alt="Hamurabi (1973)">
+        </div>
+        <div class="research-card-content">
+          <div class="research-card-tag">Ongoing · 2025–</div>
+          <h3>Gaming Mesopotamia</h3>
+          <p>I am investigating the historical means in which Mesopotamia has been represented in digital spaces and their implications for cultural historical studies.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+<section id="publications" class="section">
+  <div class="container">
+    <div class="section-header"><span class="section-number">02</span><h2>Selected Publications</h2><span class="section-line"></span></div>
+    <div class="publication-list">
+
+      <div class="publication">
+        <span class="publication-year">In&nbsp;prep</span>
+        <span class="publication-title">Ikūn-pîša and the Amorite Coalition
+          <span class="publication-source">For <em>Journal of Near Eastern Studies</em></span>
+        </span>
+        <span class="publication-type">Peer-review</span>
+      </div>
+
+      <div class="publication">
+        <span class="publication-year">In&nbsp;prep</span>
+        <span class="publication-title">Nippur's Old Babylonian Neighborhood
+          <span class="publication-source">For <em>Revue d'assyriologie et d'archéologie orientale</em></span>
+        </span>
+        <span class="publication-type">Peer-review</span>
+      </div>
+
+      <div class="publication">
+        <span class="publication-year">In&nbsp;prep</span>
+        <span class="publication-title">The Sag-Enlil Family: the Lu-Inana Line
+          <span class="publication-source">For <em>Journal of Cuneiform Studies</em></span>
+        </span>
+        <span class="publication-type">Peer-review</span>
+      </div>
+
+      <div class="publication">
+        <span class="publication-year">2024</span>
+        <span class="publication-title"><a href="https://cdli.earth/articles/cdlb/2024-2">The Groton School Cuneiform Text Collection</a>
+          <span class="publication-source"><em>Cuneiform Digital Library Bulletin</em> 2024/2, 1–19 · with Andrew Pottorf</span>
+        </span>
+        <span class="publication-type">Peer-review</span>
+      </div>
+
+      <div class="publication">
+        <span class="publication-year">2024</span>
+        <span class="publication-title"><a href="https://doi.org/10.5281/zenodo.14313735">Use of Relational Databases for Medium-Sized Corpus Study</a>
+          <span class="publication-source">OpenDANES 2024</span>
+        </span>
+        <span class="publication-type">Poster</span>
+      </div>
+
+      <div class="publication">
+        <span class="publication-year">2022</span>
+        <span class="publication-title"><a href="https://doi.org/10.2143/bior.79.5.3292086">Review of R. de Boer, <em>The Ikūn-pîša Letter Archive</em></a>
+          <span class="publication-source"><em>Bibliotheca Orientalis</em> 79(5–6), 561–566</span>
+        </span>
+        <span class="publication-type">Book review</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+<section id="teaching" class="section section-alt">
+  <div class="container">
+    <div class="section-header"><span class="section-number">03</span><h2>Teaching &amp; Talks</h2><span class="section-line"></span></div>
+    <div class="two-columns">
+
+      <div class="column">
+        <h3>In the classroom</h3>
+        <p class="column-subtitle"><em>Harvard University, 2020–2025</em></p>
+        <ul class="entry-list">
+          <li><b>Instructor</b> — Introductory Akkadian I &amp; II; Akkadian Royal Inscriptions; Political History of the Old Babylonian Period</li>
+          <li><b>Head Teaching Fellow</b> — Stories from the End of the World; Prediction: The Past and Present of the Future; Tragedy Today</li>
+          <li><b>Teaching Fellow</b> — Can We Know Our Past?; Anthropology of Crisis; The Ancient Greek Hero</li>
+        </ul>
+      </div>
+
+      <div class="column">
+        <h3>Recent talks</h3>
+        <p class="column-subtitle"><em>30+ papers &amp; invited lectures since 2018</em></p>
+        <ul class="entry-list">
+          <li><b>2026</b> — The Social Network of Nippur's Neighborhood · ASOR, Chicago</li><br>
+          <li><b>2025</b> — The Institutional Economy of Early Old Babylonian Ur &amp; Nippur · ASOR, Boston</li>
+          <li><b>2025</b> — Guest, <a href="https://www.wedgepod.org/ea-nasir-everyones-favourite-copper-merchant-transcript/"><em>Thin End of the Wedge</em> podcast: Ea-nāṣir</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+<section id="consulting" class="section">
+  <div class="container">
+    <div class="section-header"><span class="section-number">04</span><h2>Consultation &amp; Editing</h2><span class="section-line"></span></div>
+    <h3 class="subhead">Featured projects</h3>
+    <div class="credit-list">
+
+      <div class="credit">
+        <span class="credit-role">Consultation &amp; Editing</span>
+        <a href="https://www.tableofgods.com/">
+          <span class="credit-work"><em>Table of Gods</em></span>
+          <span class="credit-author">Arim Hawsho</span>
+        </a>
+      </div>
+
+      <div class="credit">
+        <span class="credit-role">Consultation</span>
+        <a href="https://tiara.org/down-the-rabbit-hole/">
+          <span class="credit-work"><em>Down the Rabbit Hole: The Intellectual Journeys of Violent Racists, Conspiracy Theorists, Flat Earthers, and Other Americans on the Fringe</em></span>
+          <span class="credit-author">Alice Marwick</span>
+        </a>
+      </div>
+
+      <div class="credit">
+        <span class="credit-role">Editing</span>
+        <a href="https://www.routledge.com/Royal-Women-at-Ugarit-Reconceiving-the-House-of-the-Father/Thomas/p/book/9780367820664">
+          <span class="credit-work"><em>Royal Women at Ugarit: Reconceiving the House of the Father</em></span>
+          <span class="credit-author">Christine Thomas</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+<footer id="contact">
+  <div class="container">
+
+    <div class="footer-cta">
+      <h2>Have a question, or<br>want to <span class="accent-text">collaborate?</span></h2>
+      <a class="button" href="mailto:andrewdeloucas@gmail.com">
+        <svg class="icon" style="width:18px;height:18px"><use href="#icon-email"/></svg>
+        Email me
+      </a>
+    </div>
+
+    <div class="footer-bar">
+      <span>© 2026 Andrew A. N. Deloucas</span>
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/aandeloucas" aria-label="LinkedIn"><svg class="icon"><use href="#icon-linkedin"/></svg></a>
+        <a href="https://orcid.org/0009-0008-2855-7093" aria-label="ORCID"><svg class="icon"><use href="#icon-orcid"/></svg></a>
+        <a href="https://github.com/adeloucas" aria-label="GitHub"><svg class="icon"><use href="#icon-github"/></svg></a>
+        <a href="https://harvard.academia.edu/AANDeloucas" aria-label="Academia.edu"><span class="icon-academia"></span></a>
+        <a href="https://bsky.app/profile/aandeloucas.com" aria-label="Bluesky"><svg class="icon"><use href="#icon-bluesky"/></svg></a>
+      </div>
+      <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var button = document.getElementById('themeToggle');
+    button.addEventListener('click', function () {
+      var isLight = root.getAttribute('data-theme') === 'light';
+      if (isLight) { root.removeAttribute('data-theme'); }   /* go to night */
+      else { root.setAttribute('data-theme', 'light'); }      /* go to day */
+      button.setAttribute('aria-pressed', String(isLight));
+    });
+  })();
+</script>
+
+</body>
+</html>
